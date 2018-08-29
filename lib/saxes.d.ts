@@ -1,5 +1,15 @@
 declare namespace saxes {
-  export const EVENTS: ReadonlyArray<string>;
+  export const EVENTS: Readonly<{
+    text: number;
+    processinginstruction: number;
+    doctype: number;
+    comment: number;
+    opentagstart: number;
+    opentag: number;
+    closetag: number;
+    cdata: number;
+    end: number;
+}>;
 
   export interface SaxesOptions {
     xmlns?: boolean;
@@ -42,17 +52,9 @@ declare namespace saxes {
     readonly position: number;
     readonly ENTITIES: Record<string, string>;
 
-    ontext(text: string): void;
-    onprocessinginstruction(pi: { target: string, body: string }): void;
-    ondoctype(doctype: string): void;
-    oncomment(comment: string): void;
-    onopentagstart(tag: SaxesTag): void;
-    onopentag(tag: SaxesTag): void;
-    onclosetag(tag: SaxesTag): void;
-    oncdata(cdata: string): void;
-    onend(): void;
+    readonly nodeStream: Subject;
+
     onready(): void;
-    onerror(err: Error): void;
 
     fail(er: Error): this;
     write(chunk: string | null): this;

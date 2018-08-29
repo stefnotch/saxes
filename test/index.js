@@ -8,49 +8,53 @@ const saxes = require("../lib/saxes");
 // otherwise, it's assumed that the test will write and close.
 exports.test = function test(options) {
   const { xml, name, expect: expected, fn } = options;
-  it(name, () => {
+  it(name, (done) => {
     const parser = new saxes.SaxesParser(options.opt);
     let expectedIx = 0;
-    for (const ev of saxes.EVENTS) {
-      // eslint-disable-next-line no-loop-func
-      parser[`on${ev}`] = (n) => {
-        if (process.env.DEBUG) {
-          // eslint-disable-next-line no-console
-          console.error({
-            expected: expected[expectedIx],
-            actual: [ev, n],
-          });
-        }
-        if (expectedIx >= expected.length && (ev === "end" || ev === "ready")) {
-          return;
-        }
+    parser.nodeStream.subscribe((result) => {
+      let ev = result.type;
+      let n = result.data;
+      if (process.env.DEBUG) {
+        // eslint-disable-next-line no-console
+        console.error({
+          expected: expected[expectedIx],
+          actual: [ev, n],
+        });
+      }
+      if (expectedIx >= expected.length && (ev === saxes.EVENTS.end)) {
+        return;
+      }
+      else {
+        if (ev === saxes.EVENTS.opentagstart || ev === saxes.EVENTS.opentag) {
+          if (n.ns) {
+            // We have to remove the prototype from n.ns. Otherwise,
+            // the deep equal check fails because the tests were
+            // written to check only the namespaces immediately
+            // defined on the tag whereas deep equal compares
+            // **all** enumerable properties and thus effectively
+            // examines up the chain of namespaces.
 
-        if (ev === "error") {
-          expect([ev, n.message]).to.deep.equal(expected[expectedIx]);
-        }
-        else {
-          if (ev === "opentagstart" || ev === "opentag") {
-            if (n.ns) {
-              // We have to remove the prototype from n.ns. Otherwise,
-              // the deep equal check fails because the tests were
-              // written to check only the namespaces immediately
-              // defined on the tag whereas deep equal compares
-              // **all** enumerable properties and thus effectively
-              // examines up the chain of namespaces.
+            n = Object.assign({}, n);
 
-              n = Object.assign({}, n);
-
-              // We shallow copy.
-              n.ns = Object.assign(Object.create(null), n.ns);
-            }
+            // We shallow copy.
+            n.ns = Object.assign(Object.create(null), n.ns);
           }
-
-          expect([ev, n]).to.deep.equal(expected[expectedIx]);
         }
 
-        expectedIx++;
-      };
-    }
+        let hack = expected[expectedIx];
+        hack[0] = saxes.EVENTS[hack[0]];
+        expect([ev, n]).to.deep.equal(hack);
+      }
+      expectedIx++;
+    }, error => {
+      expect(expected[expectedIx][0]).to.deep.equal("error");
+      expectedIx++;
+      done();
+    }, () => {
+      expect(expectedIx).to.equal(expected.length);
+      done();
+    })
+
 
     expect(xml !== undefined || fn !== undefined,
            "must use xml or fn").to.be.true;
@@ -62,7 +66,5 @@ exports.test = function test(options) {
     if (fn !== undefined) {
       fn(parser);
     }
-
-    expect(expectedIx).to.equal(expected.length);
   });
 };

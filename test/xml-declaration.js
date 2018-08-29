@@ -3,7 +3,7 @@
 const { expect } = require("chai");
 const saxes = require("../lib/saxes");
 const { test } = require(".");
-
+const { filter } = require("rxjs/operators");
 describe("xml declaration", () => {
   test({
     name: "empty declaration",
@@ -225,14 +225,14 @@ describe("xml declaration", () => {
   it("well-formed", () => {
     const parser = new saxes.SaxesParser();
     let seen = false;
-    parser.onopentagstart = () => {
+    parser.nodeStream.pipe(filter((x) => x.type === saxes.EVENTS.opentagstart)).subscribe(() => {
       expect(parser.xmlDecl).to.deep.equal({
         version: "1.1",
         encoding: "utf-8",
         standalone: "yes",
       });
       seen = true;
-    };
+    });
     parser.write(
       "<?xml version=\"1.1\" encoding=\"utf-8\" standalone=\"yes\"?><root/>");
     parser.close();

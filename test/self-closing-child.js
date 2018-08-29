@@ -67,9 +67,7 @@ require(".").test({
       name: "root",
       attributes: {},
       isSelfClosing: false,
-    }],
-    ["end", undefined],
-    ["ready", undefined],
+    }]
   ],
   opt: {},
 });

@@ -25,9 +25,7 @@ describe("wrong cdata closure", () => {
         name: "span",
         attributes: {},
         isSelfClosing: false,
-      }],
-      ["end", undefined],
-      ["ready", undefined],
+      }]
     ],
     opt: {},
   });
@@ -57,9 +55,7 @@ describe("wrong cdata closure", () => {
         name: "span",
         attributes: {},
         isSelfClosing: false,
-      }],
-      ["end", undefined],
-      ["ready", undefined],
+      }]
     ],
     opt: {},
   });
@@ -89,9 +85,7 @@ describe("wrong cdata closure", () => {
         name: "span",
         attributes: {},
         isSelfClosing: false,
-      }],
-      ["end", undefined],
-      ["ready", undefined],
+      }]
     ],
     opt: {},
   });

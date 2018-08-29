@@ -8,7 +8,6 @@
   "license": "ISC",
   "scripts": {
     "test": "mocha --delay",
-    "posttest": "eslint test/*.js lib/*.js",
     "preversion": "npm test",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
     "postversion": "npm publish",
@@ -28,13 +27,13 @@
     "@commitlint/config-angular": "^7.0.1",
     "chai": "^4.1.2",
     "conventional-changelog-cli": "^2.0.5",
-    "eslint": "^5.4.0",
     "eslint-config-lddubeau-base": "^3.0.1",
     "husky": "^0.14.3",
     "mocha": "^5.2.0",
     "xml-conformance-suite": "^1.0.0"
   },
   "dependencies": {
+    "rxjs": "^6.2.2",
     "xmlchars": "^1.1.0"
   }
 }

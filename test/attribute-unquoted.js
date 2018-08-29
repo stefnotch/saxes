@@ -38,9 +38,7 @@ require(".").test({
       local: "root",
       uri: "",
       isSelfClosing: false,
-    }],
-    ["end", undefined],
-    ["ready", undefined],
+    }]
   ],
   opt: {
     xmlns: true,

@@ -149,14 +149,14 @@ class SaxesDriver extends BaseDriver {
         const parser = new saxes.SaxesParser({
           xmlns: !test.forbidsNamespaces,
         });
-        parser.onerror = (err) => {
+        parser.nodeStream.subscribe(() => {}, (err) => {
           if (typeof process !== "undefined" && process.env &&
               process.env.DEBUG) {
             // eslint-disable-next-line no-console
             console.log(err);
           }
           errors.push(err);
-        };
+        });
 
         this.writeSource(parser, source);
         this.processResult(test, handling, errors.length === 0);
