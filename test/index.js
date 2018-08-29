@@ -47,7 +47,7 @@ exports.test = function test(options) {
       }
       expectedIx++;
     }, error => {
-      expect(expected[expectedIx][0]).to.deep.equal("error");
+      expect(expected[expectedIx][0]).to.equal("error");
       expectedIx++;
       done();
     }, () => {

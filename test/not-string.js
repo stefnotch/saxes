@@ -7,7 +7,7 @@ it("parses a buffer", (done) => {
   const parser = new saxes.SaxesParser();
   let seen = false;
   parser.nodeStream.pipe(filter((x) => x.type === saxes.EVENTS.opentag)).subscribe((node) => {
-    expect(node).to.deep.equal({ name: "x", attributes: {}, isSelfClosing: false });
+    expect(node.data).to.deep.equal({ name: "x", attributes: {}, isSelfClosing: false });
     seen = true;
   }, error => {}, () => {
     expect(seen).to.be.true;
