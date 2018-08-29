@@ -2,7 +2,7 @@
 
 const t = require(".");
 
-const expect = [
+const expected = [
   ["opentagstart", { name: "parent", attributes: {}, ns: {} }],
   [
     "opentag",
@@ -61,7 +61,7 @@ const expect = [
       },
       isSelfClosing: true,
     },
-  ],
+  ]
 ];
 
 // should be the same both ways.
@@ -74,7 +74,7 @@ describe("issue 41", () => {
     t.test({
       name: `order ${i}`,
       xml: x,
-      expect,
+      expect: expected,
       opt: {
         xmlns: true,
       },

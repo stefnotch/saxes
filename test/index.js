@@ -42,7 +42,9 @@ exports.test = function test(options) {
         }
 
         let hack = expected[expectedIx];
-        hack[0] = saxes.EVENTS[hack[0]];
+        if(typeof hack[0] == "string") hack[0] = saxes.EVENTS[hack[0]];
+        expect(hack[0]).to.not.equal(undefined);
+        expect(ev).to.not.be.equal(undefined);
         expect([ev, n]).to.deep.equal(hack);
       }
       expectedIx++;

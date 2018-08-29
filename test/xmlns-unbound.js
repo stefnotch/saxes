@@ -45,7 +45,7 @@ describe("xmlns unbound prefixes", () => {
       ],
     ],
     fn(parser) {
-      parser.write("<unbound:root/>");
+      parser.write("<unbound:root/>").close();
     },
   });
 
@@ -109,7 +109,7 @@ describe("xmlns unbound prefixes", () => {
       ],
     ],
     fn(parser) {
-      parser.write("<unbound:root xmlns:unbound=\"someuri\"/>");
+      parser.write("<unbound:root xmlns:unbound=\"someuri\"/>").close();
     },
   });
 
@@ -171,7 +171,7 @@ describe("xmlns unbound prefixes", () => {
       ],
     ],
     fn(parser) {
-      parser.write("<root unbound:attr='value'/>");
+      parser.write("<root unbound:attr='value'/>").close();
     },
   });
 });
