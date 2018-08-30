@@ -1,4 +1,4 @@
-# saxes
+# saxes - RxJS Version
 
 A sax-style non-validating parser for XML.
 
