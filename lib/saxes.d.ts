@@ -15,6 +15,7 @@ declare namespace saxes {
     xmlns?: boolean;
     position?: boolean;
     fileName?: string;
+    trim?: boolean;
   }
 
   export interface XMLDecl {
